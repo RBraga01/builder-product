@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>builder-product — AI Product Skills Pack</title>
+<meta name="description" content="6 skills and 3 agents that enforce product quality before engineering time is committed — PRD gates, metric definition, research synthesis, and AI feature validation.">
+<style>
+/* ── RESET & TOKENS ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:        #080c14;
+  --bg2:       #0e1420;
+  --surface:   #131a26;
+  --border:    rgba(255,255,255,.08);
+  --border2:   rgba(255,255,255,.14);
+  --text:      #e2e8f0;
+  --muted:     #64748b;
+  --blue:      #3b82f6;
+  --blue-d:    #1d4ed8;
+  --purple:    #8b5cf6;
+  --cyan:      #06b6d4;
+  --green:     #10b981;
+  --red:       #ef4444;
+  --amber:     #f59e0b;
+  --orange:    #f97316;
+  --orange-d:  #c2410c;
+  --white:     #ffffff;
+  --r:         14px;
+  --r-sm:      8px;
+  --shadow:    0 4px 24px rgba(0,0,0,.4);
+  --shadow-lg: 0 12px 48px rgba(0,0,0,.6);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp   { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+@keyframes fadeIn   { from { opacity:0; } to { opacity:1; } }
+@keyframes shimmer  { 0%,100%{opacity:.6} 50%{opacity:1} }
+@keyframes gradient-x { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+@keyframes glow     { 0%,100%{box-shadow:0 0 20px rgba(249,115,22,.2)} 50%{box-shadow:0 0 40px rgba(249,115,22,.5)} }
+
+.reveal { opacity:0; transform:translateY(20px); transition: opacity .6s ease, transform .6s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top:0; left:0; right:0; z-index:100;
+  display: flex; align-items:center; justify-content:space-between;
+  padding: 0 40px; height: 64px;
+  background: rgba(8,12,20,.88);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
+.nav-logo-icon {
+  width:32px; height:32px; border-radius:8px;
+  background: linear-gradient(135deg, var(--orange), var(--amber));
+  display:flex; align-items:center; justify-content:center;
+  font-weight:900; color:white; font-size:.75rem; letter-spacing:-.02em;
+}
+.nav-logo-text { font-weight:700; font-size:1rem; color:var(--white); }
+.nav-logo-badge {
+  font-size:.65rem; padding:2px 7px; border-radius:999px;
+  background:rgba(249,115,22,.15); color:var(--orange); border:1px solid rgba(249,115,22,.3);
+  font-weight:600; letter-spacing:.04em;
+}
+.nav-right { display:flex; align-items:center; gap:12px; }
+.btn-github {
+  display:flex; align-items:center; gap:8px;
+  padding:8px 16px; border-radius:8px;
+  background:var(--white); color:#0d1117;
+  font-weight:700; font-size:.85rem; text-decoration:none;
+  transition: transform .15s, box-shadow .15s;
+}
+.btn-github:hover { transform:translateY(-1px); box-shadow:0 4px 12px rgba(255,255,255,.2); }
+.btn-github svg { width:16px; height:16px; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction:column; align-items:center; justify-content:center;
+  padding: 120px 40px 80px;
+  position:relative; overflow:hidden; text-align:center;
+}
+.hero-bg {
+  position:absolute; inset:0; z-index:0;
+  background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(249,115,22,.16) 0%, transparent 60%),
+              radial-gradient(ellipse 50% 40% at 80% 80%, rgba(245,158,11,.1) 0%, transparent 50%),
+              radial-gradient(ellipse 40% 40% at 10% 60%, rgba(239,68,68,.07) 0%, transparent 50%);
+}
+.hero-grid {
+  position:absolute; inset:0; z-index:0;
+  background-image: linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent);
+}
+.hero-content { position:relative; z-index:1; max-width:820px; }
+.hero-eyebrow {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:6px 16px; border-radius:999px;
+  background:rgba(249,115,22,.1); border:1px solid rgba(249,115,22,.25);
+  color:var(--orange); font-size:.8rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase;
+  margin-bottom:28px;
+  animation: fadeIn 1s ease both;
+}
+.hero-eyebrow-dot { width:6px;height:6px;border-radius:50%;background:var(--orange); animation:shimmer 2s ease infinite; }
+.hero h1 {
+  font-size: clamp(2.4rem, 6vw, 4.8rem);
+  font-weight:900; letter-spacing:-.04em; line-height:1.05;
+  margin-bottom:24px;
+  animation: fadeUp .8s ease .1s both;
+}
+.hero h1 .grad {
+  background: linear-gradient(135deg, var(--orange) 0%, var(--amber) 50%, var(--red) 100%);
+  background-size:200% 200%; animation:gradient-x 4s ease infinite;
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+.hero-sub {
+  font-size:1.1rem; color:#94a3b8; max-width:600px; margin:0 auto 40px;
+  animation: fadeUp .8s ease .2s both;
+}
+.hero-ctas {
+  display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-bottom:64px;
+  animation: fadeUp .8s ease .3s both;
+}
+.btn-primary {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:12px 24px; border-radius:10px;
+  background: linear-gradient(135deg, var(--orange), var(--orange-d));
+  color:white; font-weight:700; font-size:.95rem; text-decoration:none;
+  animation: glow 3s ease infinite;
+  transition: transform .15s, filter .15s;
+}
+.btn-primary:hover { transform:translateY(-2px); filter:brightness(1.1); }
+.btn-secondary {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:12px 24px; border-radius:10px;
+  background:rgba(255,255,255,.06); border:1px solid var(--border2);
+  color:var(--text); font-weight:600; font-size:.95rem; text-decoration:none;
+  transition: background .15s, transform .15s;
+}
+.btn-secondary:hover { background:rgba(255,255,255,.1); transform:translateY(-2px); }
+.hero-stats {
+  display:flex; gap:0; border:1px solid var(--border); border-radius:var(--r);
+  overflow:hidden; animation: fadeUp .8s ease .4s both;
+}
+.hero-stat {
+  flex:1; padding:20px 28px; text-align:center;
+  border-right:1px solid var(--border);
+  background:var(--surface);
+}
+.hero-stat:last-child { border-right:none; }
+.hero-stat-n { font-size:2rem; font-weight:900; line-height:1; margin-bottom:4px; }
+.hero-stat-l { font-size:.75rem; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; }
+.n-orange { color:var(--orange); }
+.n-amber  { color:var(--amber); }
+.n-red    { color:var(--red); }
+.n-green  { color:var(--green); }
+
+/* ── SECTIONS ── */
+.section { padding:96px 40px; max-width:1160px; margin:0 auto; }
+.section-tag {
+  display:inline-block; font-size:.7rem; font-weight:700; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--orange); margin-bottom:12px;
+}
+.section h2 {
+  font-size:clamp(1.8rem, 3.5vw, 2.6rem); font-weight:800; letter-spacing:-.03em;
+  margin-bottom:8px; color:var(--white);
+}
+.section-sub { color:var(--muted); font-size:1rem; margin-bottom:48px; max-width:560px; }
+hr.sep { border:none; border-top:1px solid var(--border); }
+
+/* ── FAILURE CARDS ── */
+.failures-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; }
+.failure-card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--r); padding:28px;
+  border-top-width:3px;
+  transition:transform .2s, box-shadow .2s;
+}
+.failure-card:hover { transform:translateY(-4px); box-shadow:var(--shadow); }
+.failure-card.f-red    { border-top-color:var(--red); }
+.failure-card.f-amber  { border-top-color:var(--amber); }
+.failure-card.f-orange { border-top-color:var(--orange); }
+.failure-card.f-blue   { border-top-color:var(--blue); }
+.failure-label {
+  font-size:.68rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+  margin-bottom:12px;
+}
+.f-red    .failure-label { color:var(--red); }
+.f-amber  .failure-label { color:var(--amber); }
+.f-orange .failure-label { color:var(--orange); }
+.f-blue   .failure-label { color:var(--blue); }
+.failure-card h3 { font-size:.95rem; font-weight:700; color:var(--white); margin-bottom:10px; }
+.failure-card p  { font-size:.82rem; color:var(--muted); line-height:1.6; margin-bottom:16px; }
+.failure-fix {
+  font-size:.78rem; color:var(--text);
+  background:rgba(255,255,255,.04); border:1px solid var(--border);
+  border-radius:var(--r-sm); padding:10px 14px;
+  display:flex; align-items:center; gap:8px;
+}
+.failure-fix .fix-label { color:var(--green); font-weight:700; }
+
+/* ── SKILLS TABLE ── */
+.skills-list { display:flex; flex-direction:column; gap:10px; }
+.skill-row {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--r); padding:20px 24px;
+  display:grid; grid-template-columns:220px 1fr auto;
+  align-items:center; gap:20px;
+  transition:transform .15s, border-color .15s, box-shadow .15s;
+}
+.skill-row:hover { transform:translateX(4px); border-color:var(--border2); box-shadow:var(--shadow); }
+.skill-name {
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  font-size:.82rem; color:var(--amber); font-weight:600;
+}
+.skill-desc { font-size:.85rem; color:var(--muted); }
+.skill-badge {
+  font-size:.65rem; font-weight:700; padding:3px 10px; border-radius:999px;
+  white-space:nowrap;
+}
+.badge-gate     { background:rgba(239,68,68,.12); color:#f87171; border:1px solid rgba(239,68,68,.25); }
+.badge-workflow { background:rgba(249,115,22,.12); color:#fb923c; border:1px solid rgba(249,115,22,.25); }
+
+/* ── AGENTS GRID ── */
+.agents-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; }
+.agent-card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--r); padding:24px;
+  transition:transform .2s, border-color .2s, box-shadow .2s;
+}
+.agent-card:hover { transform:translateY(-4px); border-color:var(--border2); box-shadow:var(--shadow); }
+.agent-model {
+  font-size:.65rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  padding:3px 9px; border-radius:999px; display:inline-block; margin-bottom:14px;
+}
+.model-opus   { background:rgba(139,92,246,.12); color:#a78bfa; border:1px solid rgba(139,92,246,.25); }
+.model-sonnet { background:rgba(249,115,22,.12);  color:#fb923c;  border:1px solid rgba(249,115,22,.25); }
+.agent-card h3 { font-size:.9rem; font-weight:700; color:var(--white); margin-bottom:8px; }
+.agent-card p  { font-size:.78rem; color:var(--muted); line-height:1.5; }
+
+/* ── ENFORCEMENT PROOF ── */
+.proof-block {
+  background:#0a0f1a; border:1px solid var(--border);
+  border-radius:var(--r); overflow:hidden;
+}
+.proof-header {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:12px 20px; border-bottom:1px solid var(--border);
+  background:var(--surface);
+}
+.proof-dots { display:flex; gap:6px; }
+.proof-dot { width:10px; height:10px; border-radius:50%; }
+.proof-dot.red    { background:var(--red); }
+.proof-dot.amber  { background:var(--amber); }
+.proof-dot.green  { background:var(--green); }
+.proof-filename { font-size:.75rem; color:var(--muted); font-family:monospace; }
+.proof-body {
+  padding:24px;
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace;
+  font-size:.8rem; line-height:1.7; overflow-x:auto;
+}
+.c-green   { color:#34d399; }
+.c-blue    { color:#60a5fa; }
+.c-amber   { color:#fbbf24; }
+.c-muted   { color:var(--muted); }
+.c-white   { color:var(--white); }
+.c-orange  { color:#fb923c; }
+.c-cyan    { color:#67e8f9; }
+
+/* ── COMPARE ── */
+.compare { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+.cmp {
+  border-radius:var(--r); padding:28px;
+  border:1px solid var(--border);
+  transition:transform .2s, box-shadow .2s;
+}
+.cmp:hover { transform:translateY(-3px); box-shadow:var(--shadow); }
+.cmp.before { background:rgba(239,68,68,.04); border-color:rgba(239,68,68,.2); }
+.cmp.after  { background:rgba(16,185,129,.04); border-color:rgba(16,185,129,.2); }
+.cmp h3 { font-size:.9rem; font-weight:700; margin-bottom:20px; }
+.cmp.before h3 { color:var(--red); }
+.cmp.after  h3 { color:var(--green); }
+.cmp-row { display:flex; gap:10px; align-items:flex-start; margin-bottom:13px; font-size:.85rem; color:var(--text); }
+.cmp-row .ic { flex-shrink:0; margin-top:1px; }
+
+/* ── INSTALL ── */
+.install-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+.install-card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--r); overflow:hidden;
+}
+.install-card-header {
+  padding:14px 20px; border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+}
+.install-card-header span { font-size:.8rem; font-weight:600; color:var(--muted); }
+.copy-btn {
+  background:none; border:1px solid var(--border); border-radius:6px;
+  padding:4px 10px; color:var(--muted); font-size:.72rem; cursor:pointer;
+  transition:color .15s, border-color .15s;
+}
+.copy-btn:hover { color:var(--text); border-color:var(--border2); }
+.install-code {
+  padding:20px; font-family:monospace; font-size:.82rem;
+  color:var(--amber); line-height:1.6; overflow-x:auto;
+}
+
+/* ── ECOSYSTEM ── */
+.eco-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:16px; }
+.eco-card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--r); padding:24px; text-decoration:none;
+  transition:transform .2s, border-color .2s, box-shadow .2s;
+  display:block;
+}
+.eco-card:hover { transform:translateY(-3px); border-color:var(--border2); box-shadow:var(--shadow); }
+.eco-card-eyebrow { font-size:.65rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:10px; }
+.eco-card h3 { font-size:.95rem; font-weight:700; color:var(--white); margin-bottom:8px; }
+.eco-card p { font-size:.8rem; color:var(--muted); line-height:1.5; }
+.eco-you { border-color:rgba(249,115,22,.3); background:rgba(249,115,22,.04); }
+.eco-you .eco-card-eyebrow { color:var(--orange); }
+
+/* ── FOOTER ── */
+footer {
+  border-top:1px solid var(--border);
+  padding:32px 40px; text-align:center;
+  color:var(--muted); font-size:.8rem;
+}
+footer a { color:var(--muted); }
+footer a:hover { color:var(--text); }
+
+/* ── RESPONSIVE ── */
+@media (max-width:768px) {
+  nav { padding:0 20px; }
+  .section { padding:64px 20px; }
+  .hero { padding:100px 20px 60px; }
+  .hero-stats { flex-direction:column; }
+  .hero-stat { border-right:none; border-bottom:1px solid var(--border); }
+  .hero-stat:last-child { border-bottom:none; }
+  .compare, .install-grid { grid-template-columns:1fr; }
+  .skill-row { grid-template-columns:1fr; gap:10px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a class="nav-logo" href="#">
+    <div class="nav-logo-icon">b-p</div>
+    <span class="nav-logo-text">builder-product</span>
+    <span class="nav-logo-badge">v1.0.0</span>
+  </a>
+  <div class="nav-right">
+    <a class="btn-github" href="https://github.com/RBraga01/builder-product" target="_blank" rel="noopener">
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      GitHub
+    </a>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="hero-eyebrow-dot"></span>
+      AI Product Skills Pack
+    </div>
+    <h1>Engineering starts before<br>the spec is written.<br><span class="grad">This pack gates the spec.</span></h1>
+    <p class="hero-sub">6 skills and 3 agents that enforce product quality before a single line of engineering work begins. No estimate without a scope. No build without a metric. No AI feature without a hallucination plan.</p>
+    <div class="hero-ctas">
+      <a class="btn-primary" href="#install">Install in 30 seconds</a>
+      <a class="btn-secondary" href="https://github.com/RBraga01/builder-product" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        View on GitHub
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-n n-red">2</div>
+        <div class="hero-stat-l">Hard Gates</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-n n-orange">6</div>
+        <div class="hero-stat-l">Skills</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-n n-amber">3</div>
+        <div class="hero-stat-l">Agents</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-n n-green">0</div>
+        <div class="hero-stat-l">Unbounded Estimates</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="sep">
+
+<!-- ── FAILURE SCENARIOS ── -->
+<section class="section reveal">
+  <div class="section-tag">What gets skipped without this pack</div>
+  <h2>Four ways product work fails before engineering starts</h2>
+  <p class="section-sub">Not edge cases. The default outcome when no product quality enforcement exists.</p>
+
+  <div class="failures-grid">
+    <div class="failure-card f-red reveal">
+      <div class="failure-label">No PRD Gate</div>
+      <h3>"Build it and we'll figure out the metric later"</h3>
+      <p>The feature shipped. Nobody agreed on what success looked like before it was built. Three months later, nobody can tell if it's working. The rollback argument has no data to stand on.</p>
+      <div class="failure-fix">
+        <span class="fix-label">Blocked by</span>
+        <span>prd-quality-gate — user problem, success metric with baseline, scope boundary, and anti-goals required before any estimate</span>
+      </div>
+    </div>
+    <div class="failure-card f-amber reveal">
+      <div class="failure-label">No Scope</div>
+      <h3>"It's probably a two-week job"</h3>
+      <p>The estimate was given before the scope was written. The scope grew during the sprint. The two weeks became six. The estimate was the ceiling on expectations, not a ceiling on work.</p>
+      <div class="failure-fix">
+        <span class="fix-label">Blocked by</span>
+        <span>feature-scoping — written scope before estimate; estimate explicitly references the scope file</span>
+      </div>
+    </div>
+    <div class="failure-card f-orange reveal">
+      <div class="failure-label">No Research Synthesis</div>
+      <h3>"Users said they want X"</h3>
+      <p>The research was done. Nobody synthesised it into decisions. The most vocal user's request made it into the roadmap. The pattern across 40 interviews didn't — because nobody extracted it.</p>
+      <div class="failure-fix">
+        <span class="fix-label">Blocked by</span>
+        <span>user-research-synthesis — every insight must chain to a decision; "users said X" requires "therefore we will Y"</span>
+      </div>
+    </div>
+    <div class="failure-card f-blue reveal">
+      <div class="failure-label">No AI Validation</div>
+      <h3>"The AI will just handle edge cases gracefully"</h3>
+      <p>The AI feature shipped without a plan for hallucination UX, trust calibration, or what happens when it's confidently wrong. Users discovered the edge cases on day two and reported them as bugs.</p>
+      <div class="failure-fix">
+        <span class="fix-label">Blocked by</span>
+        <span>ai-feature-validation — hallucination UX, trust calibration, capability scope, and reversibility plan before approval</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="sep">
+
+<!-- ── SKILLS ── -->
+<section class="section reveal">
+  <div class="section-tag">The 6 Skills</div>
+  <h2>One skill per product quality failure</h2>
+  <p class="section-sub">Two hard gates that block work from starting. Four workflow skills that enforce how product work is done.</p>
+
+  <div class="skills-list">
+    <div class="skill-row reveal">
+      <span class="skill-name">prd-quality-gate</span>
+      <span class="skill-desc">User problem (specific form), success metric with baseline, scope boundary, anti-goals, and estimate — all five before any engineering begins</span>
+      <span class="skill-badge badge-gate">Hard Gate</span>
+    </div>
+    <div class="skill-row reveal">
+      <span class="skill-name">ai-feature-validation</span>
+      <span class="skill-desc">Hallucination UX, trust calibration, capability scope creep, and reversibility — four AI-specific risks addressed in every AI PRD. BLOCK if irreversible actions without confirmation.</span>
+      <span class="skill-badge badge-gate">Hard Gate</span>
+    </div>
+    <div class="skill-row reveal">
+      <span class="skill-name">feature-scoping</span>
+      <span class="skill-desc">Written scope document before estimate; estimate explicitly references scope file path; no open-ended "we'll see" commitments</span>
+      <span class="skill-badge badge-workflow">Workflow</span>
+    </div>
+    <div class="skill-row reveal">
+      <span class="skill-name">metric-definition</span>
+      <span class="skill-desc">North star + 2 guardrail metrics + diagnostic funnel + logging plan with verified baselines before any build begins</span>
+      <span class="skill-badge badge-workflow">Workflow</span>
+    </div>
+    <div class="skill-row reveal">
+      <span class="skill-name">user-research-synthesis</span>
+      <span class="skill-desc">Insight-to-decision chain documented; insight count must equal decision count; quotes need context; decisions need owners and timelines</span>
+      <span class="skill-badge badge-workflow">Workflow</span>
+    </div>
+    <div class="skill-row reveal">
+      <span class="skill-name">ab-test-design</span>
+      <span class="skill-desc">Hypothesis, metric, calculated sample size, minimum duration, fixed stopping rule, and all four decision outcomes — before any test runs</span>
+      <span class="skill-badge badge-workflow">Workflow</span>
+    </div>
+  </div>
+</section>
+
+<hr class="sep">
+
+<!-- ── ENFORCEMENT PROOF ── -->
+<section class="section reveal">
+  <div class="section-tag">How enforcement works</div>
+  <h2>A format that cannot be faked</h2>
+  <p class="section-sub">Each skill has a Completion Statement Format that must be filled with real values. An agent cannot claim a PRD is ready without a verified baseline at a real file path.</p>
+
+  <div class="proof-block reveal">
+    <div class="proof-header">
+      <div class="proof-dots">
+        <div class="proof-dot red"></div>
+        <div class="proof-dot amber"></div>
+        <div class="proof-dot green"></div>
+      </div>
+      <span class="proof-filename">prd-quality-gate — completion statement</span>
+      <span></span>
+    </div>
+    <div class="proof-body">
+<span class="c-green">PRD quality gate passed.</span><br>
+<span class="c-white">Feature:</span> <span class="c-orange">onboarding-flow-v2</span><br>
+<span class="c-white">PRD:</span>     <span class="c-orange">product/prd/onboarding-flow-v2-2026-06-07.md</span> <span class="c-green">✓</span><br>
+<br>
+<span class="c-white">User problem:</span><br>
+<span class="c-muted">  37% of new users drop before completing setup (Mixpanel, last 90 days)</span><br>
+<span class="c-muted">  Primary exit point: step 3 — workspace configuration (52% of drop-offs)</span><br>
+<br>
+<span class="c-white">Success metric:</span> <span class="c-orange">7-day activation rate</span><br>
+<span class="c-muted">  Baseline: 63% (Mixpanel cohort 2026-Q1)</span><br>
+<span class="c-muted">  Target:   ≥ 75% within 60 days of launch</span><br>
+<br>
+<span class="c-white">Scope boundary:</span> <span class="c-muted">steps 1–4 of onboarding only. Email verification not in scope.</span><br>
+<span class="c-white">Anti-goals:</span>     <span class="c-muted">no changes to payment flow, no new integrations</span><br>
+<span class="c-white">Estimate:</span>       <span class="c-muted">14 days (references scope at product/scopes/onboarding-v2-2026-06-07.md)</span><br>
+<br>
+<span class="c-green">Verdict: PASS — proceed to feature-scoping ✓</span>
+    </div>
+  </div>
+
+  <p style="margin-top:20px; font-size:.85rem; color:var(--muted); text-align:center;">
+    An agent that skips the metric definition cannot fill in <code style="color:var(--amber); background:rgba(245,158,11,.08); padding:2px 6px; border-radius:4px;">Baseline: 63% (Mixpanel cohort 2026-Q1)</code> with a real number.<br>
+    That is the enforcement.
+  </p>
+</section>
+
+<hr class="sep">
+
+<!-- ── AGENTS ── -->
+<section class="section reveal">
+  <div class="section-tag">The 3 Agents</div>
+  <h2>Product specialists, not generalists</h2>
+  <p class="section-sub">Each agent covers one domain. All produce output at specific file paths — no chat-only results.</p>
+
+  <div class="agents-grid">
+    <div class="agent-card reveal">
+      <span class="agent-model model-sonnet">Sonnet</span>
+      <h3>product-critic</h3>
+      <p>Reviews PRDs and feature specs against all skill gates. Verdicts: PASS / CONDITIONAL / BLOCK. Writes the critique to <code style="color:var(--amber); font-size:.75rem;">product/reviews/&lt;feature&gt;/&lt;date&gt;-product-critique.md</code>. Never gives "looks good."</p>
+    </div>
+    <div class="agent-card reveal">
+      <span class="agent-model model-sonnet">Sonnet</span>
+      <h3>metric-designer</h3>
+      <p>Designs measurement frameworks with verified baselines before features are built. North star, guardrails, diagnostics, and logging plan. Writes to <code style="color:var(--amber); font-size:.75rem;">product/metrics/&lt;feature&gt;-&lt;date&gt;.md</code>.</p>
+    </div>
+    <div class="agent-card reveal">
+      <span class="agent-model model-opus">Opus</span>
+      <h3>research-synthesiser</h3>
+      <p>Synthesises user research into an insight-to-decision chain. Every insight chains to a decision. Every quote has context. Writes to <code style="color:var(--amber); font-size:.75rem;">product/research/&lt;project&gt;-synthesis-&lt;date&gt;.md</code>.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="sep">
+
+<!-- ── COMPARE ── -->
+<section class="section reveal">
+  <div class="section-tag">Before and after</div>
+  <h2>What changes when enforcement exists</h2>
+  <p class="section-sub">The difference is work that was done before engineering started, not problems discovered after it finished.</p>
+
+  <div class="compare">
+    <div class="cmp before reveal">
+      <h3>✗ Without builder-product</h3>
+      <div class="cmp-row"><span class="ic">✗</span> Feature scoped in a meeting. Estimate given without a written scope. Scope grew silently.</div>
+      <div class="cmp-row"><span class="ic">✗</span> No agreed success metric before build. Post-launch: "is it working?" answered by opinion.</div>
+      <div class="cmp-row"><span class="ic">✗</span> User research done, then filed. Most vocal user's request became the roadmap item.</div>
+      <div class="cmp-row"><span class="ic">✗</span> AI feature shipped. Hallucination UX undefined. Users discovered edge cases as bugs.</div>
+      <div class="cmp-row"><span class="ic">✗</span> A/B test run until "it feels significant." No stopping rule. No decision rule. No reproducibility.</div>
+      <div class="cmp-row"><span class="ic">✗</span> No anti-goals. "While we're there" scope additions accumulated throughout the sprint.</div>
+    </div>
+    <div class="cmp after reveal">
+      <h3>✓ With builder-product</h3>
+      <div class="cmp-row"><span class="ic">✓</span> Written scope at <code style="font-size:.8rem; color:#fb923c;">product/scopes/</code> before estimate. Estimate references scope file path.</div>
+      <div class="cmp-row"><span class="ic">✓</span> 7-day activation rate, baseline 63%, target ≥ 75%. Logged from day one. Unambiguous at review.</div>
+      <div class="cmp-row"><span class="ic">✓</span> 40-interview synthesis: 8 insights → 8 decisions with owners and timelines.</div>
+      <div class="cmp-row"><span class="ic">✓</span> Hallucination UX designed. Low-confidence state defined. Irreversible actions confirmed.</div>
+      <div class="cmp-row"><span class="ic">✓</span> Calculated n=1,842 per arm. Fixed stopping rule: p &lt; 0.001 at ≥ 80% sample for early stop.</div>
+      <div class="cmp-row"><span class="ic">✓</span> Explicit anti-goals block scope additions. Every deviation requires a new prd-quality-gate pass.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="sep">
+
+<!-- ── INSTALL ── -->
+<section class="section reveal" id="install">
+  <div class="section-tag">Installation</div>
+  <h2>30 seconds to enforce product quality</h2>
+  <p class="section-sub">Installs only <code style="font-size:.88rem">skills/</code> and <code style="font-size:.88rem">.claude/agents/</code>. Non-destructive — won't overwrite existing files.</p>
+
+  <div class="install-grid">
+    <div class="install-card reveal">
+      <div class="install-card-header">
+        <span>macOS / Linux</span>
+        <button class="copy-btn" onclick="navigator.clipboard.writeText('bash <(curl -fsSL https://raw.githubusercontent.com/RBraga01/builder-product/master/install.sh)')">Copy</button>
+      </div>
+      <div class="install-code">bash &lt;(curl -fsSL https://raw.githubusercontent.com/<br>RBraga01/builder-product/master/install.sh)</div>
+    </div>
+    <div class="install-card reveal">
+      <div class="install-card-header">
+        <span>Windows (PowerShell)</span>
+        <button class="copy-btn" onclick="navigator.clipboard.writeText('irm https://raw.githubusercontent.com/RBraga01/builder-product/master/install.ps1 | iex')">Copy</button>
+      </div>
+      <div class="install-code">irm https://raw.githubusercontent.com/<br>RBraga01/builder-product/master/install.ps1 | iex</div>
+    </div>
+  </div>
+
+  <div style="margin-top:24px; background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:20px 24px; font-size:.85rem; color:var(--muted); line-height:1.7;">
+    Start with <code style="color:var(--amber);">prd-quality-gate</code> before any feature enters planning. Run <code style="color:var(--amber);">ai-feature-validation</code> for every feature that calls an LLM. The <code style="color:var(--amber);">product-critic</code> agent reviews against all gates and writes a PASS / CONDITIONAL / BLOCK verdict to file.
+  </div>
+</section>
+
+<hr class="sep">
+
+<!-- ── ECOSYSTEM ── -->
+<section class="section reveal">
+  <div class="section-tag">The builder-* ecosystem</div>
+  <h2>One pack per domain</h2>
+  <p class="section-sub">All packs work standalone. All share the same enforcement model. Use one, some, or all.</p>
+
+  <div class="eco-grid">
+    <a class="eco-card reveal" href="https://rbraga01.github.io/a-team/" target="_blank" rel="noopener">
+      <div class="eco-card-eyebrow">Foundation</div>
+      <h3>A Team</h3>
+      <p>25 pre-configured engineering specialists, 18 workflow skills, a lead orchestrator, and a Pipeline Auditor. The base layer.</p>
+    </a>
+    <a class="eco-card eco-you reveal" href="#" style="cursor:default">
+      <div class="eco-card-eyebrow">You are here</div>
+      <h3>builder-product</h3>
+      <p>Product quality gates. PRD, scoping, metrics, research synthesis, A/B test design, AI feature validation.</p>
+    </a>
+    <a class="eco-card reveal" href="https://rbraga01.github.io/builder-ai/" target="_blank" rel="noopener">
+      <div class="eco-card-eyebrow">AI Engineering</div>
+      <h3>builder-ai</h3>
+      <p>Eval, prompt versioning, fallback design, RAG pipelines, safety review. Three hard gates that block ship.</p>
+    </a>
+    <a class="eco-card reveal" href="https://rbraga01.github.io/builder-design/" target="_blank" rel="noopener">
+      <div class="eco-card-eyebrow">Design</div>
+      <h3>builder-design</h3>
+      <p>AI UI design enforcement. States, streaming UI, prompt UX, accessibility, and design tokens.</p>
+    </a>
+    <a class="eco-card reveal" href="https://rbraga01.github.io/builder-growth/" target="_blank" rel="noopener">
+      <div class="eco-card-eyebrow">Growth</div>
+      <h3>builder-growth</h3>
+      <p>Growth quality gates. Positioning, copy, funnel analysis, experiments, retention design, AI messaging review.</p>
+    </a>
+  </div>
+</section>
+
+<hr class="sep">
+
+<!-- ── FOOTER ── -->
+<footer>
+  <p>builder-product — MIT License — <a href="https://github.com/RBraga01" target="_blank" rel="noopener">Ricardo Romão Marques Braga</a></p>
+  <p style="margin-top:8px; font-size:.75rem;">Part of the <a href="https://rbraga01.github.io/a-team/">A Team</a> ecosystem</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver(
+  (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+  { threshold: 0.12 }
+);
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
