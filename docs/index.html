@@ -380,8 +380,8 @@ footer a:hover { color:var(--text); }
       <span class="hero-eyebrow-dot"></span>
       AI Product Skills Pack
     </div>
-    <h1>Engineering starts before<br>the spec is written.<br><span class="grad">This pack gates the spec.</span></h1>
-    <p class="hero-sub">6 skills and 3 agents that enforce product quality before a single line of engineering work begins. No estimate without a scope. No build without a metric. No AI feature without a hallucination plan.</p>
+    <h1>Developers start building<br>before the plan exists.<br><span class="grad">This pack requires the plan first.</span></h1>
+    <p class="hero-sub">Drop one folder into your project. Claude Code now must define what success means before writing code, write down the scope before giving a time estimate, and plan what happens when the AI gives a wrong answer — or it cannot start the work.</p>
     <div class="hero-ctas">
       <a class="btn-primary" href="#install">Install in 30 seconds</a>
       <a class="btn-secondary" href="https://github.com/RBraga01/builder-product" target="_blank" rel="noopener">
@@ -462,39 +462,39 @@ footer a:hover { color:var(--text); }
 
 <!-- ── SKILLS ── -->
 <section class="section reveal">
-  <div class="section-tag">The 6 Skills</div>
-  <h2>One skill per product quality failure</h2>
-  <p class="section-sub">Two hard gates that block work from starting. Four workflow skills that enforce how product work is done.</p>
+  <div class="section-tag">The 6 Rules</div>
+  <h2>One rule per product quality failure</h2>
+  <p class="section-sub">Two rules block work from starting until they're satisfied. Four rules enforce how every planning task is done.</p>
 
   <div class="skills-list">
     <div class="skill-row reveal">
       <span class="skill-name">prd-quality-gate</span>
-      <span class="skill-desc">User problem (specific form), success metric with baseline, scope boundary, anti-goals, and estimate — all five before any engineering begins</span>
+      <span class="skill-desc">The specific user problem, how you'll measure success with a real starting number, what's in and out of scope, and the time estimate — all five required before engineers start</span>
       <span class="skill-badge badge-gate">Hard Gate</span>
     </div>
     <div class="skill-row reveal">
       <span class="skill-name">ai-feature-validation</span>
-      <span class="skill-desc">Hallucination UX, trust calibration, capability scope creep, and reversibility — four AI-specific risks addressed in every AI PRD. BLOCK if irreversible actions without confirmation.</span>
+      <span class="skill-desc">What happens when the AI is wrong, how to show users what it can and can't do, what happens if it starts doing more than intended, and whether users can undo its actions — four checks required before any AI feature is approved</span>
       <span class="skill-badge badge-gate">Hard Gate</span>
     </div>
     <div class="skill-row reveal">
       <span class="skill-name">feature-scoping</span>
-      <span class="skill-desc">Written scope document before estimate; estimate explicitly references scope file path; no open-ended "we'll see" commitments</span>
+      <span class="skill-desc">Written scope saved to a file before any time estimate. The estimate must reference that file. No 'we'll figure it out as we go.'</span>
       <span class="skill-badge badge-workflow">Workflow</span>
     </div>
     <div class="skill-row reveal">
       <span class="skill-name">metric-definition</span>
-      <span class="skill-desc">North star + 2 guardrail metrics + diagnostic funnel + logging plan with verified baselines before any build begins</span>
+      <span class="skill-desc">The one number that measures success, two numbers that would mean something went wrong, a step-by-step view of the process, and a logging plan — all with real starting numbers before anything is built</span>
       <span class="skill-badge badge-workflow">Workflow</span>
     </div>
     <div class="skill-row reveal">
       <span class="skill-name">user-research-synthesis</span>
-      <span class="skill-desc">Insight-to-decision chain documented; insight count must equal decision count; quotes need context; decisions need owners and timelines</span>
+      <span class="skill-desc">Every finding from user research connects to a specific decision. Same number of findings and decisions. Every quote includes context. Every decision has an owner and a deadline.</span>
       <span class="skill-badge badge-workflow">Workflow</span>
     </div>
     <div class="skill-row reveal">
       <span class="skill-name">ab-test-design</span>
-      <span class="skill-desc">Hypothesis, metric, calculated sample size, minimum duration, fixed stopping rule, and all four decision outcomes — before any test runs</span>
+      <span class="skill-desc">What you're testing, how you'll measure it, how many users you need, how long it runs, when you can stop it early, and what you'll do in each of the four possible outcomes — all written before the test starts</span>
       <span class="skill-badge badge-workflow">Workflow</span>
     </div>
   </div>
@@ -504,9 +504,9 @@ footer a:hover { color:var(--text); }
 
 <!-- ── ENFORCEMENT PROOF ── -->
 <section class="section reveal">
-  <div class="section-tag">How enforcement works</div>
-  <h2>A format that cannot be faked</h2>
-  <p class="section-sub">Each skill has a Completion Statement Format that must be filled with real values. An agent cannot claim a PRD is ready without a verified baseline at a real file path.</p>
+  <div class="section-tag">How it works</div>
+  <h2>Claude must produce real proof — not just say it's done</h2>
+  <p class="section-sub">Each rule requires a specific output with real values. Claude cannot say a plan is ready without showing a real baseline number at a real file path.</p>
 
   <div class="proof-block reveal">
     <div class="proof-header">
@@ -549,25 +549,25 @@ footer a:hover { color:var(--text); }
 
 <!-- ── AGENTS ── -->
 <section class="section reveal">
-  <div class="section-tag">The 3 Agents</div>
-  <h2>Product specialists, not generalists</h2>
-  <p class="section-sub">Each agent covers one domain. All produce output at specific file paths — no chat-only results.</p>
+  <div class="section-tag">The 3 Specialists</div>
+  <h2>Three AI roles Claude can take on</h2>
+  <p class="section-sub">Each specialist has a narrow focus. All produce output at specific file paths — no chat-only results.</p>
 
   <div class="agents-grid">
     <div class="agent-card reveal">
       <span class="agent-model model-sonnet">Sonnet</span>
       <h3>product-critic</h3>
-      <p>Reviews PRDs and feature specs against all skill gates. Verdicts: PASS / CONDITIONAL / BLOCK. Writes the critique to <code style="color:var(--amber); font-size:.75rem;">product/reviews/&lt;feature&gt;/&lt;date&gt;-product-critique.md</code>. Never gives "looks good."</p>
+      <p>Reviews plans and feature specs against all 6 rules. Verdict: pass, fix these things, or blocked. Writes the report to a real file. Never gives 'looks good.'</p>
     </div>
     <div class="agent-card reveal">
       <span class="agent-model model-sonnet">Sonnet</span>
       <h3>metric-designer</h3>
-      <p>Designs measurement frameworks with verified baselines before features are built. North star, guardrails, diagnostics, and logging plan. Writes to <code style="color:var(--amber); font-size:.75rem;">product/metrics/&lt;feature&gt;-&lt;date&gt;.md</code>.</p>
+      <p>Sets up how a feature will be measured before it's built — the success number, the warning signs, how to track each step, what to log. Writes it to a real file.</p>
     </div>
     <div class="agent-card reveal">
       <span class="agent-model model-opus">Opus</span>
       <h3>research-synthesiser</h3>
-      <p>Synthesises user research into an insight-to-decision chain. Every insight chains to a decision. Every quote has context. Writes to <code style="color:var(--amber); font-size:.75rem;">product/research/&lt;project&gt;-synthesis-&lt;date&gt;.md</code>.</p>
+      <p>Turns raw user research into a list of findings and decisions — one decision per finding, every quote with context. Writes the output to a real file.</p>
     </div>
   </div>
 </section>
