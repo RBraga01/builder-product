@@ -12,6 +12,7 @@ files = {
     "README.md":   (ROOT / "README.md",   rf"{re.escape(LABEL)}[^\n]*v(\d+\.\d+\.\d+)"),
     "CHANGELOG.md":(ROOT / "CHANGELOG.md", r"^## (\d+\.\d+\.\d+)"),
     "CLAUDE.md":   (ROOT / "CLAUDE.md",   rf"{re.escape(LABEL)}[^\n]*v(\d+\.\d+\.\d+)"),
+    "AGENTS.md":   (ROOT / "AGENTS.md",   r"Version:\s*v(\d+\.\d+\.\d+)"),
 }
 
 versions = {}
