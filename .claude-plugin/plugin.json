@@ -1,0 +1,21 @@
+{
+  "name": "builder-product",
+  "description": "AI product quality enforcement: 6 skills and 3 agents for product teams",
+  "version": "1.0.0",
+  "author": {
+    "name": "RBraga01",
+    "url": "https://github.com/RBraga01"
+  },
+  "homepage": "https://github.com/RBraga01/builder-product",
+  "repository": "https://github.com/RBraga01/builder-product",
+  "license": "MIT",
+  "keywords": [
+    "product",
+    "prd",
+    "feature",
+    "ab-testing",
+    "metrics",
+    "claude-code",
+    "builder"
+  ]
+}
