@@ -1,0 +1,45 @@
+{
+  "name": "builder-product",
+  "version": "1.0.0",
+  "description": "AI product quality enforcement: 6 skills and 3 agents that enforce quality in AI-assisted product work. Covers feature scoping, PRD quality gates, A/B test design, metric definition, user research synthesis, and AI feature validation.",
+  "author": {
+    "name": "RBraga01",
+    "url": "https://github.com/RBraga01"
+  },
+  "homepage": "https://github.com/RBraga01/builder-product",
+  "repository": "https://github.com/RBraga01/builder-product",
+  "license": "MIT",
+  "websiteURL": "https://github.com/RBraga01/builder-product",
+  "privacyPolicyURL": "https://github.com/RBraga01/builder-product/blob/main/SECURITY.md",
+  "termsOfServiceURL": "https://github.com/RBraga01/builder-product/blob/main/LICENSE",
+  "keywords": [
+    "product",
+    "prd",
+    "feature",
+    "ab-testing",
+    "metrics",
+    "codex",
+    "builder"
+  ],
+  "interface": {
+    "displayName": "Builder: Product",
+    "shortDescription": "6 skills and 3 agents for product teams.",
+    "longDescription": "AI product quality enforcement: 6 skills and 3 agents that enforce quality in AI-assisted product work. Covers feature scoping, PRD quality gates, A/B test design, metric definition, user research synthesis, and AI feature validation.",
+    "developerName": "RBraga01",
+    "category": "Coding",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Run /feature-scoping before starting a new feature.",
+      "Use prd-quality-gate to review a product requirements document."
+    ],
+    "websiteURL": "https://github.com/RBraga01/builder-product",
+    "privacyPolicyURL": "https://github.com/RBraga01/builder-product/blob/main/SECURITY.md",
+    "termsOfServiceURL": "https://github.com/RBraga01/builder-product/blob/main/LICENSE",
+    "brandColor": "#f59e0b",
+    "screenshots": []
+  }
+}
