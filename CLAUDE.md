@@ -20,6 +20,7 @@ builder-product — AI Product Skills Pack v1.0.0
 
 For any new feature:
 
+0. `mvp-scope-validator` → before any PRD, when the idea may be over-scoped — extract hypothesis and define minimum scope
 1. `prd-quality-gate` → defines the problem and success metric
 2. `feature-scoping` → written scope before any estimate
 3. `metric-definition` → measurement plan with baselines before code
