@@ -10,6 +10,7 @@ Works standalone or alongside [A Team](https://github.com/RBraga01/a-team), [bui
 
 | Skill | What It Enforces |
 |---|---|
+| `mvp-scope-validator` | Core hypothesis extracted and scope reduced to minimum before any PRD is written |
 | `prd-quality-gate` | User problem + success metric + scope boundary + anti-goals before any estimate |
 | `feature-scoping` | Written scope before estimate; estimate before commit; no open-ended "we'll see" specs |
 | `metric-definition` | North star, guardrail, and diagnostic metrics with baselines before build begins |
@@ -46,10 +47,10 @@ cp -rn builder-product/.claude your-project/
 
 | Pack | Domain | Skills | Agents |
 |---|---|---|---|
-| [A Team](https://github.com/RBraga01/a-team) | Engineering baseline | 18 | 25 |
+| [A Team](https://github.com/RBraga01/a-team) | Engineering baseline | 19 | 25 |
 | [builder-ai](https://github.com/RBraga01/builder-ai) | LLM engineering | 8 | 5 |
 | [builder-design](https://github.com/RBraga01/builder-design) | AI UI design | 8 | 5 |
-| **builder-product** | Product quality | 6 | 3 |
+| **builder-product** | Product quality | 7 | 3 |
 | [builder-growth](https://github.com/RBraga01/builder-growth) | Growth & messaging | 6 | 3 |
 
 All packs share the same enforcement model: Completion Statement Formats that require real values, not summaries.
