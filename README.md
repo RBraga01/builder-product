@@ -47,7 +47,7 @@ cp -rn builder-product/.claude your-project/
 
 | Pack | Domain | Skills | Agents |
 |---|---|---|---|
-| [A Team](https://github.com/RBraga01/a-team) | Engineering baseline | 19 | 25 |
+| [A Team](https://github.com/RBraga01/a-team) | Engineering baseline | 19 | 26 |
 | [builder-ai](https://github.com/RBraga01/builder-ai) | LLM engineering | 8 | 5 |
 | [builder-design](https://github.com/RBraga01/builder-design) | AI UI design | 8 | 5 |
 | **builder-product** | Product quality | 7 | 3 |

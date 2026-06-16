@@ -1,7 +1,7 @@
 {
   "name": "builder-product",
   "version": "1.0.0",
-  "description": "AI product quality enforcement: 6 skills and 3 agents that enforce quality in AI-assisted product work. Covers feature scoping, PRD quality gates, A/B test design, metric definition, user research synthesis, and AI feature validation.",
+  "description": "AI product quality enforcement: 7 skills and 3 agents that enforce quality in AI-assisted product work. Covers MVP scope validation, feature scoping, PRD quality gates, A/B test design, metric definition, user research synthesis, and AI feature validation.",
   "author": {
     "name": "RBraga01",
     "url": "https://github.com/RBraga01"
@@ -23,8 +23,8 @@
   ],
   "interface": {
     "displayName": "Builder: Product",
-    "shortDescription": "6 skills and 3 agents for product teams.",
-    "longDescription": "AI product quality enforcement: 6 skills and 3 agents that enforce quality in AI-assisted product work. Covers feature scoping, PRD quality gates, A/B test design, metric definition, user research synthesis, and AI feature validation.",
+    "shortDescription": "7 skills and 3 agents for product teams.",
+    "longDescription": "AI product quality enforcement: 7 skills and 3 agents that enforce quality in AI-assisted product work. Covers MVP scope validation, feature scoping, PRD quality gates, A/B test design, metric definition, user research synthesis, and AI feature validation.",
     "developerName": "RBraga01",
     "category": "Coding",
     "capabilities": [

@@ -4,7 +4,8 @@
 
 Initial release.
 
-### Skills (6)
+### Skills (7)
+- `mvp-scope-validator` — core hypothesis and minimum viable scope before any PRD
 - `prd-quality-gate` — user problem + success metric + scope + anti-goals before any estimate
 - `feature-scoping` — written scope before estimate; estimate before commit
 - `metric-definition` — north star + guardrails + diagnostics + logging plan before code
